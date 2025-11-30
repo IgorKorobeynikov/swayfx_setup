@@ -1,0 +1,22 @@
+name: FreeBSD CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: FreeBSD 14.3 smoke
+        uses: vmactions/freebsd-vm@v1
+        with:
+          release: "14.3"
+          usesh: true
+          prepare: |
+            pkg update -f
+          run: |
+            sh install.sh
+            sh tests/smoke.sh
