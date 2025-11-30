@@ -81,8 +81,24 @@ ensure_pkg() {
   fi
 }
 
+force_latest_pkg_repo() {
+  # Use the latest branch so newer packages like eww are available.
+  mkdir -p /usr/local/etc/pkg/repos
+  cat >/usr/local/etc/pkg/repos/FreeBSD.conf <<'EOF'
+FreeBSD: {
+  url: "pkg+https://pkg.FreeBSD.org/${ABI}/latest",
+  mirror_type: "srv",
+  signature_type: "fingerprints",
+  fingerprints: "/usr/share/keys/pkg",
+  enabled: yes
+}
+EOF
+  pkg update -f
+}
+
 install_packages() {
   echo "Installing packages..."
+  force_latest_pkg_repo
   pkg install -y $REQUIRED_PACKAGES seatd dbus
 }
 
