@@ -1,4 +1,6 @@
 #!/bin/sh
+export XDG_RUNTIME_DIR=/var/run/user/$(id -u)
+[ -d "$XDG_RUNTIME_DIR" ] || { mkdir -p "$XDG_RUNTIME_DIR"; chmod 700 "$XDG_RUNTIME_DIR"; }
 
 REQUIRED_VER="10.47"
 if ! pkg info -q pcre2 | grep -q "$REQUIRED_VER"; then
