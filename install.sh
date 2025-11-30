@@ -186,7 +186,7 @@ main() {
   cat <<'EOF'
 Setup complete.
 Start a session with:
-  dbus-run-session swayfx
+  dbus-run-session sway
 EOF
 }
 
