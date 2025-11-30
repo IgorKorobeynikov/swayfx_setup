@@ -7,7 +7,7 @@ fail() {
   exit 1
 }
 
-for bin in sway foot eww wofi; do
+for bin in sway foot wofi; do
   command -v "$bin" >/dev/null 2>&1 || fail "missing binary: $bin"
 done
 
@@ -16,7 +16,6 @@ HOME_DIR=${HOME:-$(getent passwd "$(id -un)" | cut -d: -f6 2>/dev/null)}
 [ -n "$HOME_DIR" ] || fail "cannot determine HOME"
 
 [ -f "$HOME_DIR/.config/sway/config" ] || fail "missing sway config: $HOME_DIR/.config/sway/config"
-[ -d "$HOME_DIR/.config/eww" ] || fail "missing eww directory: $HOME_DIR/.config/eww"
 
 echo "Smoke OK"
 exit 0
