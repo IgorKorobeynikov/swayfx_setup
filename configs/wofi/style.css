@@ -1,0 +1,34 @@
+window {
+  background-color: #1F2029;
+  color: #F8F8F2;
+  padding: 8px;
+}
+
+entry {
+  background-color: #282A36;
+  color: #F8F8F2;
+  border: none;
+  box-shadow: none;
+  padding: 10px;
+}
+
+list {
+  background-color: #282A36;
+  color: #F8F8F2;
+  padding: 0;
+}
+
+listview {
+  background-color: #282A36;
+}
+
+row {
+  padding: 10px;
+  background-color: #282A36;
+  border-left: 2px solid transparent;
+}
+
+row:selected {
+  background-color: #343746;
+  border-left: 2px solid #BD93F9;
+}

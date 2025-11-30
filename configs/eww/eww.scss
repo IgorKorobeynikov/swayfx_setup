@@ -1,0 +1,53 @@
+$bg: #1F2029;
+$bg-alt: #282A36;
+$bg-alt2: #343746;
+$fg: #F8F8F2;
+$muted: #B0B3C0;
+$accent1: #BD93F9;
+$accent2: #FF79C6;
+$border: #44475A;
+
+* {
+  font-family: "Noto Sans", "Noto Sans Mono", monospace;
+  font-size: 11px;
+  color: $fg;
+}
+
+window#bar {
+  background: $bg;
+  border-bottom: 1px solid $border;
+}
+
+.bar {
+  padding: 6px 12px;
+}
+
+.workspaces {
+  background: transparent;
+  padding: 0 6px;
+}
+
+.ws {
+  padding: 6px 8px;
+  background: $bg-alt;
+  border-radius: 4px;
+  color: $muted;
+}
+
+.ws-active {
+  background: $bg-alt2;
+  color: $accent1;
+  border: 1px solid $border;
+}
+
+.bar-right {
+  background: transparent;
+}
+
+.volume .icon {
+  color: $accent2;
+}
+
+.clock {
+  color: $fg;
+}
