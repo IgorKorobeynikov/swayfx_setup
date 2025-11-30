@@ -150,6 +150,7 @@ deploy_configs() {
   target_config="$home_dir/.config"
   src_root="$SCRIPT_DIR/configs"
   ts=$(date +%Y%m%d%H%M%S)
+  user_group=$(id -gn "$user" 2>/dev/null || true)
 
   mkdir -p "$target_config"
   for src in "$src_root"/*; do
@@ -160,7 +161,11 @@ deploy_configs() {
       mv "$dest" "${dest}.bak.$ts"
     fi
     cp -R "$src" "$dest"
-    chown -R "$user":"$user" "$dest"
+    if [ -n "$user_group" ]; then
+      chown -R "$user":"$user_group" "$dest"
+    else
+      chown -R "$user" "$dest"
+    fi
   done
 }
 
