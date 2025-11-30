@@ -6,7 +6,7 @@ REQUIRED_PACKAGES="
   swayfx
   foot
   wofi
-  eww
+  eww-wayland
   dunst
   swaylock-effects
   swayidle
@@ -82,7 +82,7 @@ ensure_pkg() {
 }
 
 force_latest_pkg_repo() {
-  # Use the latest branch so newer packages like eww are available.
+  # Use the latest branch so newer packages like eww-wayland are available.
   mkdir -p /usr/local/etc/pkg/repos
   cat >/usr/local/etc/pkg/repos/FreeBSD.conf <<'EOF'
 FreeBSD: {
