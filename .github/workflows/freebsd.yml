@@ -3,20 +3,24 @@ name: FreeBSD CI
 on:
   pull_request:
   push:
-    branches: [main]
+    branches: [master]
+  workflow_dispatch:
 
 jobs:
   smoke:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - name: FreeBSD 14.3 smoke
         uses: vmactions/freebsd-vm@v1
         with:
           release: "14.3"
           usesh: true
           prepare: |
+            env ASSUME_ALWAYS_YES=YES pkg bootstrap || true
             pkg update -f
           run: |
+            cd "$GITHUB_WORKSPACE"
             sh install.sh
             sh tests/smoke.sh
