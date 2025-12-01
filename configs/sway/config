@@ -1,82 +1,115 @@
+# swayfx_setup config
+# Adapted from smravec/.dotfiles-swayfx
+
+# Mod key
 set $mod Mod4
 
-set $bg           "#1F2029"
-set $bg_alt       "#282A36"
-set $bg_alt2      "#343746"
-set $fg           "#F8F8F2"
-set $muted        "#B0B3C0"
-set $accent1      "#BD93F9"
-set $accent2      "#FF79C6"
+# Home row direction keys, like vim
+set $left  h
+set $down  j
+set $up    k
+set $right l
 
-font pango:monospace 10
-floating_modifier $mod
+# Terminal & launcher
+set $term alacritty
+set $menu wofi --show drun
 
-output * bg $bg solid_color
+# Colors
+# class                 border  backgr. text    indicator child_border
+client.focused          #999999 #5f676a #999999 #999999   #999999
+client.focused_inactive #999999 #5f676a #999999 #999999   #999999
+client.unfocused        #333333 #222222 #888888 #292d2e   #1f1e1e
+client.urgent           #999999 #5f676a #999999 #999999   #999999
+client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
 
-input * {
-    xkb_layout "us,ru"
-}
+client.background       #000000
+default_border pixel 1
 
-bindsym $mod+space exec input * xkb_switch_layout next
+# Wallpaper (положи картинку сюда, если нужно)
+output * bg ~/.config/sway/wallpaper.png fill
 
-bindsym $mod+Return exec foot
-bindsym $mod+d exec wofi --show drun
+# --- Key bindings ---
+
+# Start a terminal
+bindsym $mod+Return exec $term
+
+# App launcher
+bindsym $mod+d exec $menu
+
+# Kill focused window
 bindsym $mod+Shift+q kill
+
+# Reload config
 bindsym $mod+Shift+c reload
-bindsym $mod+Shift+e exit
 
-bindsym $mod+h focus left
-bindsym $mod+j focus down
-bindsym $mod+k focus up
-bindsym $mod+l focus right
+# Floating modifier
+floating_modifier $mod normal
 
-bindsym $mod+Shift+h move left
-bindsym $mod+Shift+j move down
-bindsym $mod+Shift+k move up
-bindsym $mod+Shift+l move right
+# Screenshots (обнови путь под себя)
+bindsym $mod+s exec grim -g "$(slurp)" ~/Pictures/Screenshot-$(date +'%Y-%m-%d_%H-%M-%S').png
 
-bindsym $mod+f fullscreen toggle
-bindsym $mod+Shift+space floating toggle
+# Moving around
+bindsym $mod+Left  focus left
+bindsym $mod+Down  focus down
+bindsym $mod+Up    focus up
+bindsym $mod+Right focus right
 
+bindsym $mod+Shift+Left  move left
+bindsym $mod+Shift+Down  move down
+bindsym $mod+Shift+Up    move up
+bindsym $mod+Shift+Right move right
+
+# Workspaces
 bindsym $mod+1 workspace number 1
 bindsym $mod+2 workspace number 2
 bindsym $mod+3 workspace number 3
 bindsym $mod+4 workspace number 4
 bindsym $mod+5 workspace number 5
-bindsym $mod+6 workspace number 6
-bindsym $mod+7 workspace number 7
-bindsym $mod+8 workspace number 8
-bindsym $mod+9 workspace number 9
 
 bindsym $mod+Shift+1 move container to workspace number 1
 bindsym $mod+Shift+2 move container to workspace number 2
 bindsym $mod+Shift+3 move container to workspace number 3
 bindsym $mod+Shift+4 move container to workspace number 4
 bindsym $mod+Shift+5 move container to workspace number 5
-bindsym $mod+Shift+6 move container to workspace number 6
-bindsym $mod+Shift+7 move container to workspace number 7
-bindsym $mod+Shift+8 move container to workspace number 8
-bindsym $mod+Shift+9 move container to workspace number 9
 
-bindsym $mod+l exec swaylock-effects --clock --indicator --effect-blur 7x5 --fade-in 0.2
+# Layout
+bindsym $mod+v splitv
+bindsym $mod+h splith
 
-set $shot_dir "$HOME/Pictures"
-bindsym Print exec sh -c "mkdir -p \"$shot_dir\" && grim \"$shot_dir/screenshot-$(date +%Y%m%d-%H%M%S).png\""
-bindsym Shift+Print exec sh -c "mkdir -p \"$shot_dir\" && grim -g \"$(slurp)\" \"$shot_dir/screenshot-$(date +%Y%m%d-%H%M%S).png\""
+# Fullscreen
+bindsym $mod+f fullscreen
 
-exec_always --no-startup-id dunst
+# Toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
 
-bar {
-    position top
-    status_command while :; do date "+%a %Y-%m-%d %H:%M:%S"; sleep 1; done
-    colors {
-        background $bg
-        statusline $fg
-        separator $bg_alt2
-        focused_workspace  $bg_alt2 $bg_alt2 $fg
-        active_workspace   $bg_alt  $bg_alt  $fg
-        inactive_workspace $bg      $bg      $muted
-        urgent_workspace   $accent2 $accent2 $bg
-        binding_mode       $accent1 $accent1 $bg
-    }
+# Resize mode
+mode "resize" {
+    bindsym $left  resize shrink width 10px
+    bindsym $down  resize grow   height 10px
+    bindsym $up    resize shrink height 10px
+    bindsym $right resize grow   width 10px
+
+    bindsym Left  resize shrink width 10px
+    bindsym Down  resize grow   height 10px
+    bindsym Up    resize shrink height 10px
+    bindsym Right resize grow   width 10px
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
 }
+bindsym $mod+r mode "resize"
+
+input "type:touchpad" {
+    dwt enabled
+    tap enabled
+    middle_emulation enabled
+}
+
+input "1:1:AT_Translated_Set_2_keyboard" {
+    xkb_layout "us,ru"
+    xkb_options "grp:win_space_toggle"
+}
+
+seat * xcursor_theme capitaine-cursors
+output * scale 1
+exec_always --no-startup-id dunst

@@ -4,6 +4,7 @@ set -eu
 
 REQUIRED_PACKAGES="
   swayfx
+  alacritty
   foot
   wofi
   eww-wayland
@@ -151,22 +152,40 @@ deploy_configs() {
   src_root="$SCRIPT_DIR/configs"
   ts=$(date +%Y%m%d%H%M%S)
   user_group=$(id -gn "$user" 2>/dev/null || true)
+  TARGET_USER="$user"
+  TARGET_GROUP="$user_group"
 
   mkdir -p "$target_config"
   for src in "$src_root"/*; do
     [ -e "$src" ] || continue
     name=$(basename "$src")
+    [ "$name" = "alacritty" ] && continue
     dest="$target_config/$name"
     if [ -e "$dest" ]; then
       mv "$dest" "${dest}.bak.$ts"
     fi
     cp -R "$src" "$dest"
-    if [ -n "$user_group" ]; then
-      chown -R "$user":"$user_group" "$dest"
+    if [ -n "$TARGET_GROUP" ]; then
+      chown -R "$TARGET_USER":"$TARGET_GROUP" "$dest"
     else
-      chown -R "$user" "$dest"
+      chown -R "$TARGET_USER" "$dest"
     fi
   done
+
+  alacritty_src="$src_root/alacritty"
+  if [ -d "$alacritty_src" ]; then
+    alacritty_dest="$target_config/alacritty"
+    if [ -e "$alacritty_dest" ]; then
+      mv "$alacritty_dest" "${alacritty_dest}.bak.$ts"
+    fi
+    mkdir -p "$alacritty_dest"
+    cp -R "$alacritty_src"/. "$alacritty_dest"
+    if [ -n "$TARGET_GROUP" ]; then
+      chown -R "$TARGET_USER":"$TARGET_GROUP" "$alacritty_dest"
+    else
+      chown -R "$TARGET_USER" "$alacritty_dest"
+    fi
+  fi
 }
 
 main() {

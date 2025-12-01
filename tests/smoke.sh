@@ -7,7 +7,7 @@ fail() {
   exit 1
 }
 
-for bin in sway foot wofi; do
+for bin in sway alacritty foot wofi; do
   command -v "$bin" >/dev/null 2>&1 || fail "missing binary: $bin"
 done
 
