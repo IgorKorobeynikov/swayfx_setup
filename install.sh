@@ -2,6 +2,16 @@
 
 set -eu
 
+log() {
+  echo "$@"
+}
+
+warn() {
+  echo "WARNING: $*" >&2
+}
+
+WALLPAPER_URL="https://raw.githubusercontent.com/smravec/.dotfiles-swayfx/main/sway/wallpaper.png"
+
 REQUIRED_PACKAGES="
   swayfx
   alacritty
@@ -188,6 +198,44 @@ deploy_configs() {
   fi
 }
 
+install_wallpaper() {
+  dest="$TARGET_HOME/.config/sway/wallpaper.png"
+  dest_dir=$(dirname "$dest")
+
+  if [ -f "$dest" ]; then
+    log "Wallpaper already exists at $dest; skipping download."
+    return
+  fi
+
+  mkdir -p "$dest_dir"
+
+  if command -v fetch >/dev/null 2>&1; then
+    if ! fetch -o "$dest" "$WALLPAPER_URL"; then
+      warn "Failed to download wallpaper via fetch from $WALLPAPER_URL"
+      return
+    fi
+  elif command -v wget >/dev/null 2>&1; then
+    if ! wget -O "$dest" "$WALLPAPER_URL"; then
+      warn "Failed to download wallpaper via wget from $WALLPAPER_URL"
+      return
+    fi
+  elif command -v curl >/dev/null 2>&1; then
+    if ! curl -L -o "$dest" "$WALLPAPER_URL"; then
+      warn "Failed to download wallpaper via curl from $WALLPAPER_URL"
+      return
+    fi
+  else
+    warn "No fetch, wget, or curl available to download wallpaper."
+    return
+  fi
+
+  if [ -n "${TARGET_GROUP:-}" ]; then
+    chown "$TARGET_USER":"$TARGET_GROUP" "$dest"
+  else
+    chown "$TARGET_USER" "$dest"
+  fi
+}
+
 main() {
   require_root
   check_freebsd_version
@@ -195,12 +243,16 @@ main() {
 
   target_user=$(detect_user)
   home_dir=$(user_home "$target_user")
+  TARGET_USER="$target_user"
+  TARGET_HOME="$home_dir"
+  TARGET_GROUP=$(id -gn "$target_user" 2>/dev/null || true)
 
   install_packages
   ensure_groups
   add_user_to_groups "$target_user"
   set_rc_conf
   deploy_configs "$target_user" "$home_dir"
+  install_wallpaper
 
   cat <<'EOF'
 Setup complete.
