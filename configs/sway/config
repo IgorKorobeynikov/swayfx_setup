@@ -113,3 +113,5 @@ input "1:1:AT_Translated_Set_2_keyboard" {
 seat * xcursor_theme capitaine-cursors
 output * scale 1
 exec_always --no-startup-id dunst
+exec_always --no-startup-id eww daemon
+exec_always --no-startup-id eww open bar

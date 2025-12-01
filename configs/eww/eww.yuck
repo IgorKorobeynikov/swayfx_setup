@@ -1,9 +1,7 @@
-(defpoll clock :interval "1s"
-  (sh "date +\"%Y-%m-%d %H:%M:%S\""))
+(defpoll clock :interval "1s" "date +\"%Y-%m-%d %H:%M\"")
 
 (defwidget workspaces []
-  (box :class "workspaces"
-       :spacing 8
+  (box :class "workspaces" :spacing 6
        (label :text "[1]" :class "ws ws-active")
        (label :text "[2]" :class "ws")
        (label :text "[3]" :class "ws")
@@ -11,27 +9,30 @@
        (label :text "[5]" :class "ws")))
 
 (defwidget bar-right []
-  (box :class "bar-right" :spacing 14 :halign "end"
+  (box :class "bar-right" :spacing 12 :halign "end"
        (box :class "volume" :spacing 6
-            (label :text "" :class "icon")
-            (label :text "100%"))
+            (label :text "[=]" :class "icon")
+            (label :text "VOL" :class "volume-text"))
        (label :text clock :class "clock")))
 
 (defwidget bar-root []
   (centerbox :class "bar"
-             :halign "fill" :valign "center"
+             :orientation "horizontal"
+             :space-evenly false
              (workspaces)
-             (box) ;; center spacer
+             (box :class "bar-center"
+                  :hexpand true
+                  (label :text "" :class "title"))
              (bar-right)))
 
 (defwindow bar
   :focusable false
-  :stacking "fg"
+  :stacking "bg"
   :exclusive true
   :monitor "0"
   :geometry (geometry :anchor "top center"
                       :width "100%"
-                      :height "36px"
+                      :height "34px"
                       :x "0px"
                       :y "0px")
   (bar-root))

@@ -19,12 +19,12 @@ window#bar {
 }
 
 .bar {
+  background: $bg;
   padding: 6px 12px;
 }
 
 .workspaces {
   background: transparent;
-  padding: 0 6px;
 }
 
 .ws {
@@ -34,10 +34,18 @@ window#bar {
   color: $muted;
 }
 
+.ws + .ws {
+  margin-left: 4px;
+}
+
 .ws-active {
   background: $bg-alt2;
   color: $accent1;
   border: 1px solid $border;
+}
+
+.bar-center {
+  color: $muted;
 }
 
 .bar-right {
@@ -46,8 +54,14 @@ window#bar {
 
 .volume .icon {
   color: $accent2;
+  font-weight: 700;
+}
+
+.volume-text {
+  color: $fg;
 }
 
 .clock {
-  color: $fg;
+  color: $accent1;
+  font-weight: 600;
 }
