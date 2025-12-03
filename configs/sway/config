@@ -25,7 +25,15 @@ client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
 client.background       #000000
 default_border pixel 1
 
-# Wallpaper (положи картинку сюда, если нужно)
+smart_corner_radius enable
+corner_radius 10
+
+shadows enable
+shadows_on_csd enable
+shadow_blur_radius 40
+shadow_color #00000080
+
+# Wallpaper
 output * bg ~/.config/sway/wallpaper.png fill
 
 # --- Key bindings ---

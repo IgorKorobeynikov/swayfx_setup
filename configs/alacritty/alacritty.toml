@@ -1,0 +1,88 @@
+# ~/.config/alacritty/alacritty.toml
+
+[env]
+TERM = "alacritty"
+
+[general]
+working_directory = "~/"
+live_config_reload = true
+
+[window]
+opacity = 0.7
+blur = true
+
+[window.padding]
+x = 20
+y = 20
+
+[font]
+normal.family = "JetBrains Mono"
+italic.family = "JetBrains Mono"
+bold_italic.family = "JetBrains Mono"
+
+[scrolling]
+history = 10000
+multiplier = 3
+
+[colors.primary]
+background = "#282a36"
+foreground = "#f8f8f2"
+
+[colors.cursor]
+text   = "#282a36"
+cursor = "#f8f8f2"
+
+[colors.selection]
+text       = "#f8f8f2"
+background = "#44475a"
+
+[colors.normal]
+black   = "#282a36"
+red     = "#ff5555"
+green   = "#50fa7b"
+yellow  = "#f1fa8c"
+blue    = "#8be9fd" 
+magenta = "#ff79c6"
+cyan    = "#8be9fd"
+white   = "#f8f8f2" 
+
+[colors.bright]
+black   = "#44475a" 
+red     = "#ff5555"
+green   = "#50fa7b"
+yellow  = "#f1fa8c"
+blue    = "#8be9fd"
+magenta = "#ff79c6"
+cyan    = "#8be9fd"
+white   = "#ffffff"
+
+[debug]
+render_timer = false
+persistent_logging = false
+log_level = "Warn"
+print_events = false
+
+[[keyboard.bindings]]
+key = "C"
+mods = "Control|Shift"
+chars = "\u0003"
+
+[[keyboard.bindings]]
+key = "C"
+mods = "Control"
+action = "Copy"
+
+[[keyboard.bindings]]
+key = "V"
+mods = "Control"
+action = "Paste"
+
+[[keyboard.bindings]]
+key = "Plus"
+mods = "Control"
+action = "IncreaseFontSize"
+
+[[keyboard.bindings]]
+key = "Minus"
+mods = "Control"
+action = "DecreaseFontSize"
